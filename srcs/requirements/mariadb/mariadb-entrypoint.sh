@@ -1,6 +1,7 @@
 #!/bin/sh
 
-if [ -z "$MYSQL_DATABASE" ] || [ -z "$MYSQL_USER" ] || [ -z "$MYSQL_PASSWORD" ] || [ -z "$MYSQL_ROOT_PASSWORD" ]; then
+if [ -z "$MYSQL_DATABASE" ] || [ -z "$MYSQL_USER" ] || \
+   [ -z "$MYSQL_PASSWORD" ] || [ -z "$MYSQL_ROOT_PASSWORD" ]; then
     echo "Error: Missing MariaDB environment variables"
     exit 1
 fi
@@ -18,13 +19,15 @@ CREATE DATABASE IF NOT EXISTS \`${MYSQL_DATABASE}\`;
 CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';
 GRANT ALL PRIVILEGES ON \`${MYSQL_DATABASE}\`.* TO '${MYSQL_USER}'@'%';
 
-ALTER USER 'root'@'%' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
+ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
+CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
 
 FLUSH PRIVILEGES;
 EOF
 
-    /usr/bin/mysqld --user=mysql --bootstrap < /tmp/init_db.sql
+    /usr/sbin/mysqld --user=mysql --bootstrap < /tmp/init_db.sql
     rm -f /tmp/init_db.sql
 fi
 
-exec /usr/bin/mysqld --user=mysql --console
+exec /usr/sbin/mysqld --user=mysql --console
