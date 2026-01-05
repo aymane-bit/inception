@@ -39,6 +39,14 @@ services:
     networks:
       - inception
 
+  redis:
+    build: ./requirements/redis
+    container_name: redis
+    networks:
+      - inception
+    restart: always
+
+
 volumes:
   mariadb_data:
     driver: local
