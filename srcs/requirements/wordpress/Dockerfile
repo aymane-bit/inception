@@ -26,10 +26,14 @@ RUN mkdir -p /var/www/html && chown -R www-data:www-data /var/www/html
 RUN curl -L https://wordpress.org/latest.tar.gz \
     | tar -xz -C /var/www/html --strip-components=1
 
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+    && chmod +x wp-cli.phar \
+    && mv wp-cli.phar /usr/local/bin/wp
+
 # Permissions
 RUN chown -R www-data:www-data /var/www/html
 
-COPY wordpress-entrypoint.sh /usr/local/bin/wordpress-entrypoint.sh
+COPY tools/wordpress-entrypoint.sh /usr/local/bin/wordpress-entrypoint.sh
 
 RUN chmod +x /usr/local/bin/wordpress-entrypoint.sh
 

@@ -11,7 +11,7 @@ RUN mkdir -p /var/run/mysqld && \
 
 RUN sed -i "s|bind-address            = 127.0.0.1|bind-address            = 0.0.0.0|g" /etc/mysql/mariadb.conf.d/50-server.cnf
 
-COPY mariadb-entrypoint.sh /usr/local/bin/mariadb-entrypoint.sh
+COPY tools/mariadb-entrypoint.sh /usr/local/bin/mariadb-entrypoint.sh
 
 RUN chmod +x /usr/local/bin/mariadb-entrypoint.sh
 
