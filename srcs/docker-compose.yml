@@ -40,8 +40,28 @@ services:
       - inception
 
   redis:
-    build: ./requirements/redis
+    build: ./requirements/bonus/redis
     container_name: redis
+    networks:
+      - inception
+    restart: always
+
+  adminer:
+    build: ./requirements/bonus/adminer
+    container_name: adminer
+    ports:
+      - "8080:8080"
+    networks:
+      - inception
+    restart: always
+    depends_on:
+      - mariadb
+
+  static_site:
+    build: ./requirements/bonus/static_site
+    container_name: static_site
+    ports:
+      - "4242:4242"
     networks:
       - inception
     restart: always
