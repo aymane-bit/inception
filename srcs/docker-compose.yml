@@ -7,6 +7,7 @@ services:
       - .env
     volumes:
       - mariadb_data:/var/lib/mysql
+      - ./secrets:/run/secrets:ro
     networks:
       - inception
 
@@ -18,10 +19,12 @@ services:
       - .env
     volumes:
       - wordpress_data:/var/www/html
+      - ./secrets:/run/secrets:ro
     depends_on:
       - mariadb
     networks:
       - inception
+
 
   nginx:
     build: ./requirements/nginx
@@ -54,33 +57,3 @@ volumes:
 networks:
   inception:
     driver: bridge
-
-
-# version: "3.8"
-
-# services:
-#   mariadb:
-#     image: mariadb:11
-#     container_name: mariadb
-#     restart: unless-stopped
-#     environment:
-#       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-#       MYSQL_DATABASE: ${MYSQL_DATABASE}
-#       MYSQL_USER: ${MYSQL_USER}
-#       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-#     volumes:
-#       - mariadb_data:/var/lib/mysql
-
-#   wordpress:
-#     image: wordpress-test          # your custom image
-#     container_name: wordpress
-#     restart: on-failure
-#     env_file:
-#       - .env                        # same .env with WORDPRESS_DB_* and MYSQL_*
-#     depends_on:
-#       - mariadb
-#     expose:
-#       - "9000"                      # php-fpm port
-
-# volumes:
-#   mariadb_data:

@@ -1,13 +1,13 @@
 #!/bin/sh
+set -e
 
-if [ -z "$MYSQL_DATABASE" ] || [ -z "$MYSQL_USER" ] || \
-   [ -z "$MYSQL_PASSWORD" ] || [ -z "$MYSQL_ROOT_PASSWORD" ]; then
-    echo "Error: Missing MariaDB environment variables"
-    exit 1
-fi
+MYSQL_PASSWORD=$(cat /run/secrets/db_password.txt)
+MYSQL_ROOT_PASSWORD=$(cat /run/secrets/db_root_password.txt)
+
+: "${MYSQL_DATABASE:?Missing MYSQL_DATABASE}"
+: "${MYSQL_USER:?Missing MYSQL_USER}"
 
 if [ ! -d "/var/lib/mysql/$MYSQL_DATABASE" ]; then
-
     mysql_install_db --user=mysql --datadir=/var/lib/mysql > /dev/null
 
     cat << EOF > /tmp/init_db.sql
