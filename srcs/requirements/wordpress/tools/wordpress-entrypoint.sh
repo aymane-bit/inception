@@ -11,7 +11,6 @@ done
 
 cd $WP_PATH
 
-# 2) Create wp-config.php if it does not exist
 if [ ! -f wp-config.php ]; then
     cp wp-config-sample.php wp-config.php
 
@@ -21,7 +20,6 @@ if [ ! -f wp-config.php ]; then
     sed -i "s/localhost/${WORDPRESS_DB_HOST}/" wp-config.php
 fi
 
-# 3) Install WordPress if not installed
 if ! wp core is-installed --allow-root; then
     wp core install \
         --url="${WP_URL}" \
@@ -32,7 +30,6 @@ if ! wp core is-installed --allow-root; then
         --allow-root
 fi
 
-# 4) Start PHP-FPM
 mkdir -p /run/php
 chown www-data:www-data /run/php
 
