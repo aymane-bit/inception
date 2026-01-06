@@ -1,6 +1,7 @@
 services:
   mariadb:
     build: ./requirements/mariadb
+    image: mariadb
     container_name: mariadb
     restart: always
     env_file:
@@ -13,6 +14,7 @@ services:
 
   wordpress:
     build: ./requirements/wordpress
+    image: wordpress
     container_name: wordpress
     restart: always
     env_file:
@@ -28,6 +30,7 @@ services:
 
   nginx:
     build: ./requirements/nginx
+    image: nginx
     container_name: nginx
     restart: always
     ports:
@@ -41,6 +44,7 @@ services:
 
   redis:
     build: ./requirements/bonus/redis
+    image: redis
     container_name: redis
     networks:
       - inception
@@ -48,6 +52,7 @@ services:
 
   adminer:
     build: ./requirements/bonus/adminer
+    image: adminer
     container_name: adminer
     ports:
       - "8080:8080"
@@ -59,9 +64,44 @@ services:
 
   static_site:
     build: ./requirements/bonus/static_site
+    image: static_site
     container_name: static_site
     ports:
       - "4242:4242"
+    networks:
+      - inception
+    restart: always
+
+  ftp:
+    build: ./requirements/bonus/ftp
+    image: ftp
+    container_name: ftp
+    ports:
+      - "21:21"
+      - "21100-21110:21100-21110"
+    volumes:
+      - wordpress_data:/var/www/html
+      - ./secrets:/run/secrets:ro
+    environment:
+      - FTP_USER=${FTP_USER}
+    depends_on:
+      - wordpress
+    networks:
+      - inception
+    restart: always
+
+  cadvisor:
+    build: ./requirements/bonus/cadvisor
+    image: cadvisor
+    container_name: cadvisor
+    ports:
+      - "8081:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
     networks:
       - inception
     restart: always
