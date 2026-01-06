@@ -11,16 +11,13 @@ else
     exit 1
 fi
 
-# Create FTP user if it doesn't exist
 if ! id "$FTP_USER" > /dev/null 2>&1; then
     echo "Creating FTP user: $FTP_USER"
     useradd -m -d /var/www/html -s /bin/bash "$FTP_USER"
     echo "$FTP_USER:$FTP_PASS" | chpasswd
-    # Add user to www-data group so they can modify wordpress files
     usermod -aG www-data "$FTP_USER"
 fi
 
-# Configure vsftpd
 cat << EOF > /etc/vsftpd.conf
 listen=YES
 listen_ipv6=NO

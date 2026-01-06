@@ -12,7 +12,12 @@ inception/
 │   │   ├── mariadb/        # Database
 │   │   ├── wordpress/      # CMS + PHP-FPM
 │   │   ├── nginx/          # Web Server + TLS
-│   │   └── bonus/          # Redis, Adminer, Static Site
+│   │   └── bonus/
+│   │       ├── redis/
+│   │       ├── adminer/
+│   │       ├── static_site/
+│   │       ├── ftp/        # vsftpd
+│   │       └── cadvisor/   # Google Cadvisor
 │   └── secrets/            # (GitIgnored) Runtime secrets
 ```
 
@@ -20,16 +25,19 @@ inception/
 
 ### Network Topology
 - **Network Name**: `inception` (Driver: `bridge`)
-- **Isolation**: Services communicate via this internal network using container names as hostnames (e.g., `wordpress` can ping `mariadb`).
+- **Isolation**: Services communicate via this internal network using container names as hostnames.
 - **External Access**:
-  - Nginx: `443` (Host: `443`)
-  - Adminer: `8080` (Host: `8080`)
-  - Static Site: `4242` (Host: `4242`)
+  - Nginx: `443`
+  - Adminer: `8080`
+  - Cadvisor: `8081`
+  - Static Site: `4242`
+  - FTP: `21` (+ Passive `21100-21110`)
 
 ### 💾 Volume Management
 Data persistence is handled via mapping host directories to container volumes:
 - **MariaDB**: `/home/akajjou/data/mariadb` ➡ `/var/lib/mysql`
 - **WordPress**: `/home/akajjou/data/wordpress` ➡ `/var/www/html`
+- **FTP**: Shares the `wordpress` volume to allow file modification.
 
 ### 🔑 Security & Secrets
 We avoid environment variables for sensitive data.
@@ -44,24 +52,18 @@ We avoid environment variables for sensitive data.
 To see what's happening inside the containers:
 ```bash
 make logs             # All logs
-make logs-wordpress   # Specific service
+make logs-ftp         # FTP logs
 ```
 
 ### Enter a Container
 To open a shell inside a running container:
 ```bash
 docker exec -it wordpress /bin/bash
-docker exec -it mariadb /bin/bash
+docker exec -it ftp /bin/sh
 ```
 
 ### Check Database Connection
 From the workspace container:
 ```bash
 docker exec -it wordpress mysql -h mariadb -u wpuser -p
-```
-
-### Rebuild Specific Service
-If you modify a Dockerfile (e.g., Nginx), rebuild only that service:
-```bash
-docker compose -f srcs/docker-compose.yml up -d --no-deps --build nginx
 ```

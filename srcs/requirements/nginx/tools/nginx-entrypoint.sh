@@ -13,7 +13,7 @@ if [ ! -f "$SSL_DIR/nginx.crt" ]; then
         -newkey rsa:2048 \
         -keyout $SSL_DIR/nginx.key \
         -out $SSL_DIR/nginx.crt \
-        -subj "/C=MA/ST=42/L=Khouribga/O=42/CN=akajjou.42.fr"
+        -subj "/C=MA/ST=42/L=Oujda/O=42/CN=akajjou.42.fr"
 fi
 
 exec nginx -g "daemon off;"

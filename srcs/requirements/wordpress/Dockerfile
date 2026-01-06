@@ -16,13 +16,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     mariadb-client \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Configure PHP-FPM to listen on port 9000
 RUN sed -i 's|^listen = .*|listen = 9000|' /etc/php/*/fpm/pool.d/www.conf
 
-# Create WordPress directory
 RUN mkdir -p /var/www/html && chown -R www-data:www-data /var/www/html
 
-# Download WordPress
 RUN curl -L https://wordpress.org/latest.tar.gz \
     | tar -xz -C /var/www/html --strip-components=1
 
@@ -30,7 +27,6 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
     && chmod +x wp-cli.phar \
     && mv wp-cli.phar /usr/local/bin/wp
 
-# Permissions
 RUN chown -R www-data:www-data /var/www/html
 
 COPY tools/wordpress-entrypoint.sh /usr/local/bin/wordpress-entrypoint.sh

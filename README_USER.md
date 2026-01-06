@@ -9,24 +9,30 @@ Once the infrastructure is up (see "Quick Start"), you can access the following 
 
 ### 📝 WordPress (Blog)
 - **URL**: [https://akajjou.42.fr](https://akajjou.42.fr)
-- **Description**: A fully functional WordPress site.
 - **Login**:
   - **Admin User**: `akajjou_owner`
   - **Standard User**: `akajjou`
-  - *Passwords are managed securely via secrets.*
 
 ### 🗄️ Adminer (Database Manager)
 - **URL**: [http://akajjou.42.fr:8080](http://akajjou.42.fr:8080)
-- **Description**: Web interface to manage the MariaDB database.
 - **Login Details**:
   - **System**: MySQL
   - **Server**: `mariadb`
   - **Username**: `wpuser` (or `root`)
-  - **Database**: `wordpress`
 
 ### 📄 Static Website
 - **URL**: [http://akajjou.42.fr:4242](http://akajjou.42.fr:4242)
-- **Description**: A simplistic static HTML page to demonstrate an extra service.
+- **Description**: A simplistic static HTML page.
+
+### 📊 Cadvisor (Monitoring)
+- **URL**: [http://akajjou.42.fr:8081](http://akajjou.42.fr:8081)
+- **Description**: Dashboard to view CPU/RAM usage of containers.
+
+### 📂 FTP Server
+- **Address**: `akajjou.42.fr`
+- **Port**: `21`
+- **User**: `ftpuser`
+- **Password**: *(Managed via secret `srcs/secrets/ftp_password.txt`)*
 
 ---
 

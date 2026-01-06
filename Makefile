@@ -4,6 +4,9 @@ DATA_DIR    = /home/akajjou/data
 all: setup build up
 	@echo "Inception is running!"
 	@echo "WordPress: https://akajjou.42.fr"
+	@echo "Adminer: http://akajjou.42.fr:8080"
+	@echo "Static_site: http://akajjou.42.fr:4242"
+	@echo "Cadvisor: http://akajjou.42.fr:8081"
 
 setup:
 	@echo "Creating data directories..."
@@ -55,6 +58,21 @@ logs-wordpress:
 
 logs-nginx:
 	@$(COMPOSE) logs nginx
+
+logs-redis:
+	@$(COMPOSE) logs redis
+
+logs-static_site:
+	@$(COMPOSE) logs static_site
+
+logs-adminer:
+	@$(COMPOSE) logs adminer
+
+logs-cadvisor:
+	@$(COMPOSE) logs cadvisor
+
+logs-ftp:
+	@$(COMPOSE) logs ftp
 
 clean: down
 	@echo "Cleaning up containers and images for this project..."
