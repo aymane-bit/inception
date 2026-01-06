@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title> 
+    <link rel="stylesheet" href="homeS.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div id="container">
+        <div id="error_handel">
+        </div>
+        <div id="password_policy">
+            <span id="rule1">at least 8 characters</span><br>
+            <span id="rule2">at least 1 uppercase letter</span><br>
+            <span id="rule3">at least 1 special character</span>
+        </div>
+        <div id="trngl" class="triangle"></div>
+        <div class="wrapper">
+            <form id="loginForm" novalidate>
+                <h1>WELCOME BACK</h1>
+                <div class="input-box">
+                    <input id="email_log" type="email" placeholder="Email" required>
+                </div>
+                <div class="input-box">
+                    <input id="pass_hidden" type="password" placeholder="Password">
+                </div>
+                <i id="showpass" class='bx bxs-sun'></i>
+                <button id="login_but" type="submit" class="btn" >SIGN IN</button>
+            </form>
+
+            <form id="registerForm" novalidate>
+                <h1>Create an account</h1>
+                <div class="input-box">
+                    <input id="name_re" type="text" placeholder="Name" required>
+                </div>
+                <div class="input-box">
+                    <input id="email_re" type="email" placeholder="Email" required>
+                </div>
+                <div class="input-box-pass">
+                    <input id="pass_re" type="password" placeholder="Password" required>
+                </div>
+                <div id="pass-check">
+                    <input id="pass_confirm_re" type="password" placeholder="Confirm Password" required>
+                </div>
+                <button id="register_btn" type="submit" class="btn" >REGISTER</button>
+            </form>
+            
+        </div>
+        <div id="login_dev">
+            <div id="welcome">
+                <h1>GuestLY <br> Simplify, Create, Elevate!</h1>
+                <img src="sources/form_ico.png">
+                <h2>Invite with love, party, organize with ease <br> <br> SIGN UP NOW!</h2>
+                <button id="signin">sign up</button>
+            </div>
+        </div>
+    </div>
+    <script src="dynamic.js"></script>
+    <script src="parseForm.js"></script>
+    <script src="passpolicy.js"></script>
+</body>
+</html>
